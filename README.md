@@ -21,10 +21,11 @@ This repo is fork for now
 - pamixer
 - light
 - brillo
+- lazygit
 
 you can use this to install all dependencies at once
 ```bash
-yay -S kitty fish google-chrome-stable starship fisher hyprpaper hyprland neovim rofi waybar-hyprland dunst swaylock-effects-git swayidle pamixer light brillo --noconfirm
+yay -S kitty fish google-chrome-stable starship fisher hyprpaper hyprland neovim rofi waybar-hyprland dunst swaylock-effects-git swayidle pamixer light brillo lazygit --noconfirm
 ```
 
 To copy these dotfiles do:
