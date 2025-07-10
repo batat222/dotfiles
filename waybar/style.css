@@ -41,6 +41,7 @@ window#waybar.hidden {
 #custom-weather.rainyNight,
 #custom-weather.showyIcyDay,
 #custom-weather.snowyIcyNight,
+#custom-cava,
 #custom-weather.default {
   color: #e5e5e5;
   border-radius: 6px;
@@ -311,4 +312,9 @@ label:focus {
 
 #custom-weather.default {
   color: #dbd9d8;
+}
+
+#custom-cava {
+    font-size: 24;
+    margin-right: 10px;
 }
