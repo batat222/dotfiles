@@ -1,0 +1,2 @@
+# dotfiles
+First arch rice
