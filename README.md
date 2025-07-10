@@ -4,6 +4,10 @@ This repo is fork for now
 
 - Wallpaper folder is ~/Pictures/Wallpapers
 
+### Screenshots
+
+![Alt text](/Images/screenshot1.png/?raw=true "Some screenshots")
+
 ### Dependencies
 - kitty
 - fish
