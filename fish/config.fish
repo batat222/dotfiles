@@ -1,4 +1,5 @@
 if status is-interactive
+    set source ~/.bashrc
     set -x PAGER less
     set -x LESS -R
     set -gx EDITOR nvim

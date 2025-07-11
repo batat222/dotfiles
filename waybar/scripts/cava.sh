@@ -28,7 +28,7 @@ ascii_max_range = 7
 integral = 0.7
 monstercat = 1
 waves = 1
-gravity = 1
+gravity = 3
 ignore = 0
 " >$config_file
 
