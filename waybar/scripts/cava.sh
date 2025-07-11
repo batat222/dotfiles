@@ -13,7 +13,7 @@ done
 config_file="/tmp/polybar_cava_config"
 echo "
 [general]
-bars = 18
+bars = 25
 mode = scientific
 framerate = 60
 autosens = 1  
