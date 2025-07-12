@@ -11,22 +11,23 @@ This repo is fork for now
 ![Alt text](/Images/screenshot2.png/?raw=true "Some screenshots")
 
 ### Dependencies
-- kitty
-- fish
-- google chrome (yes, i'm using it)
-- starship
-- fisher
-- hyprland
-- neovim
-- rofi
-- swww
-- dunst
-- pamixer
-- light
 - brillo
+- dunst
+- fish
+- fisher
+- google chrome (yes, i'm using it)
+- hyprland
+- hyprlock
+- kitty
+- light
+- neovim
+- nerdfonts (for lazyvim)
+- pamixer
 - perl
 - pywal16
-- nerdfonts (for neovim)
+- rofi
+- starship
+- swww
 
 To copy these dotfiles do:
 ```bash
