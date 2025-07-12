@@ -3,6 +3,7 @@ This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [
 This repo is fork for now
 
 - Wallpaper folder is ~/Pictures/Wallpapers
+- tested only on arch
 
 ### Screenshots
 
@@ -25,12 +26,11 @@ This repo is fork for now
 - brillo
 - perl
 - pywal16
+- nerdfonts (for neovim)
 
 To copy these dotfiles do:
 ```bash
-cp .config .config-backup &&
-git clone https://github.com/batat222/dotfiles.git ~/.config \
+cp ~/.config ~/.config-backup \
+&& git clone https://github.com/batat222/dotfiles.git ~/.config \
 && rm -rf ~/.config/.git
 ```
-#### WARNING
-This command will delete .git folder from your .config (if you had one)
