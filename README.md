@@ -7,6 +7,7 @@ This repo is fork for now
 ### Screenshots
 
 ![Alt text](/Images/screenshot1.png/?raw=true "Some screenshots")
+![Alt text](/Images/screenshot2.png/?raw=true "Some screenshots")
 
 ### Dependencies
 - kitty
@@ -14,14 +15,11 @@ This repo is fork for now
 - google chrome (yes, i'm using it)
 - starship
 - fisher
-- hyprpaper
 - hyprland
 - neovim
 - rofi
-- waybar-hyprland
+- swww
 - dunst
-- swaylock-effects-git
-- swayidle
 - pamixer
 - light
 - brillo
