@@ -27,9 +27,6 @@ This repo is fork for now
 - pywal16
 
 To copy these dotfiles do:
-```
-```
-```bash
 ```bash
 cp .config .config-backup &&
 git clone https://github.com/batat222/dotfiles.git ~/.config \
