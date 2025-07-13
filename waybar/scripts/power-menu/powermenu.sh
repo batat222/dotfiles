@@ -24,8 +24,8 @@ logout='󰍃'
 powersave='󰾆'
 balanced='󰾅'
 performance='󰓅'
-yes='󰗠'
-no='󰗡'
+yes='✓'
+no='x'
 
 # Rofi command
 rofi_cmd() {
@@ -56,13 +56,12 @@ set_powermode() {
 # Confirmation dialog
 confirm_cmd() {
   rofi -theme-str 'window {location: center; anchor: center; width: 350px;}' \
-    -theme-str 'mainbox {children: [ "message", "listview" ];}' \
+    -theme-str 'mainbox {children: [ "listview" ];}' \
     -theme-str 'listview {columns: 2; lines: 1;}' \
     -theme-str 'element-text {horizontal-align: 0.5;}' \
     -theme-str 'textbox {horizontal-align: 0.5;}' \
     -dmenu \
     -p 'Confirmation' \
-    -mesg 'Are you Sure?' \
     -theme ${dir}/${theme}.rasi
 }
 
