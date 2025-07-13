@@ -16,13 +16,16 @@ This repo is fork for now
 - fish
 - fisher
 - google chrome (yes, i'm using it)
+- hypridle
 - hyprland
 - hyprlock
+- jq
 - kitty
 - light
 - neovim
 - nerdfonts (for lazyvim)
 - pamixer
+- pandoc
 - perl
 - pywal16
 - rofi
