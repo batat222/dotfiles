@@ -3,7 +3,7 @@
     "reload_style_on_change": true,
     "layer": "top", // Waybar at top layer
     "modules-left": ["custom/launcher", "cpu", "memory", "hyprland/workspaces", "custom/weather", "custom/cava"],
-    "modules-right": ["custom/bonsai", "tray", "network", "pulseaudio",  "backlight", "battery", "custom/lock", "clock", "custom/power-menu"],
+    "modules-right": ["custom/bonsai", "tray", "network", "pulseaudio",  "backlight", "battery", "custom/lock", "clock"],
     "hyprland/workspaces": {
       "format": "{icon}",
       "on-click": "activate",
@@ -100,10 +100,6 @@
        "on-click": "swaylock",
        "format" : "",
     },
-    "custom/power-menu": {
-        "format": " ⏻ ",
-        "on-click": "bash ~/.config/waybar/scripts/power-menu/powermenu.sh &",
-    }, 
     "custom/launcher": {
         "format": "",
         "on-click": "rofi -show drun &",

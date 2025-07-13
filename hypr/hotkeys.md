@@ -16,8 +16,9 @@
 |     `Super` + `Shift` + `R`               | Restart Waybar                              |
 |     `Super` + `Shift` + `P`               | Randomize wallpaper                         |
 |     `Super` + `L`                       | Lock screen                                 |
-|     `Super` + `f1`                      | hotkey cheatsheet                           |
-|     `Super` + `Shift` + `f1`              | hotkey cheatsheet                           |
+|     `Super` + `f1`                      | Hotkey cheatsheet                           |
+|     `Super` + `Shift` + `f1`              | Hotkey cheatsheet                           |
+|     `Super` + `f4`                      | Power menu                                  |
 ---
 
 ## Window Navigation

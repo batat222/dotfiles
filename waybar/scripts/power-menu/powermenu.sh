@@ -1,104 +1,129 @@
 #!/usr/bin/env bash
 
-# Current Theme
-dir="~/.config/waybar/scripts/power-menu/"
-theme='style'
+# Generate rofi colors from wal
+"${HOME}/.config/waybar/scripts/power-menu/wal-to-rofi.sh"
+
+# Now import the generated colors
+dir="$HOME/.config/waybar/scripts/power-menu"
+theme="style" # This will use colors from ~/.cache/wal/colors-rofi.rasi
+
+[... rest of your script ...]
+
+# Get Wal colors (for theming)
+source "${HOME}/.cache/wal/colors.sh"
 
 # CMDs
-uptime="`uptime -p | sed -e 's/up //g'`"
-host=`hostname`
+uptime="$(uptime -p | sed -e 's/up //g')"
 
-# Options
-shutdown=''
-reboot=''
-lock=''
-suspend=' '
-logout=' '
-yes=' '
-no=''
+# Icons (Nerd Font)
+shutdown='󰐥'
+reboot='󰜉'
+lock='󰌾'
+suspend='󰤄'
+logout='󰍃'
+powersave='󰾆'
+balanced='󰾅'
+performance='󰓅'
+yes='󰗠'
+no='󰗡'
 
-# Rofi CMD
+# Rofi command
 rofi_cmd() {
-	rofi -dmenu \
-		-p "Uptime: $uptime" \
-		-mesg "Uptime: $uptime" \
-		-theme ${dir}/${theme}.rasi
+  rofi -dmenu \
+    -p "Uptime: $uptime" \
+    -mesg "Uptime: $uptime" \
+    -theme ~/.config/waybar/scripts/power-menu/style.rasi
 }
 
-# Confirmation CMD
+# Power mode selection
+set_powermode() {
+  case "$1" in
+  "󰾆 PowerSave")
+    sudo cpupower frequency-set -g powersave
+    notify-send "Power Mode: Powersave"
+    ;;
+  "󰾅 Balanced")
+    sudo cpupower frequency-set -g balanced
+    notify-send "Power Mode: Balanced"
+    ;;
+  "󰓅 Performance")
+    sudo cpupower frequency-set -g performance
+    notify-send "Power Mode: Performance"
+    ;;
+  esac
+}
+
+# Confirmation dialog
 confirm_cmd() {
-	rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
-		-theme-str 'mainbox {children: [ "message", "listview" ];}' \
-		-theme-str 'listview {columns: 2; lines: 1;}' \
-		-theme-str 'element-text {horizontal-align: 0.5;}' \
-		-theme-str 'textbox {horizontal-align: 0.5;}' \
-		-dmenu \
-		-p 'Confirmation' \
-		-mesg 'Are you Sure?' \
-		-theme ${dir}/${theme}.rasi
+  rofi -theme-str 'window {location: center; anchor: center; width: 350px;}' \
+    -theme-str 'mainbox {children: [ "message", "listview" ];}' \
+    -theme-str 'listview {columns: 2; lines: 1;}' \
+    -theme-str 'element-text {horizontal-align: 0.5;}' \
+    -theme-str 'textbox {horizontal-align: 0.5;}' \
+    -dmenu \
+    -p 'Confirmation' \
+    -mesg 'Are you Sure?' \
+    -theme ${dir}/${theme}.rasi
 }
 
-# Ask for confirmation
 confirm_exit() {
-	echo -e "$yes\n$no" | confirm_cmd
+  echo -e "$yes\n$no" | confirm_cmd
 }
 
-# Pass variables to rofi dmenu
+# Main menu
 run_rofi() {
-	echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
+  echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown\n$powersave\n$balanced\n$performance" | rofi_cmd
 }
 
-# Execute Command
+# Execute command
 run_cmd() {
-	selected="$(confirm_exit)"
-	if [[ "$selected" == "$yes" ]]; then
-		if [[ $1 == '--shutdown' ]]; then
-			systemctl poweroff
-		elif [[ $1 == '--reboot' ]]; then
-			systemctl reboot
-		elif [[ $1 == '--suspend' ]]; then
-			mpc -q pause
-			amixer set Master mute
-			systemctl suspend
-		elif [[ $1 == '--logout' ]]; then
-            if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
-                openbox --exit
-            elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-                bspc quit
-            elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-                i3-msg exit
-            elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
-                qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-            elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
-                hyprctl dispatch exit 1
-            fi
-        fi
-	else
-		exit 0
-	fi
+  selected="$(confirm_exit)"
+  if [[ "$selected" == "$yes" ]]; then
+    if [[ $1 == '--shutdown' ]]; then
+      systemctl poweroff
+    elif [[ $1 == '--reboot' ]]; then
+      systemctl reboot
+    elif [[ $1 == '--suspend' ]]; then
+      mpc -q pause
+      amixer set Master mute
+      systemctl suspend
+    elif [[ $1 == '--logout' ]]; then
+      if [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
+        hyprctl dispatch exit
+      elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+        i3-msg exit
+      elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+        bspc quit
+      fi
+    fi
+  else
+    exit 0
+  fi
 }
 
-# Actions
+# Handle selection
 chosen="$(run_rofi)"
 case ${chosen} in
-    $shutdown)
-		run_cmd --shutdown
-        ;;
-    $reboot)
-		run_cmd --reboot
-        ;;
-    $lock)
-		if [[ -x '/usr/bin/betterlockscreen' ]]; then
-			betterlockscreen -l
-		elif [[ -x '/usr/bin/i3lock' ]]; then
-			i3lock
-		fi
-        ;;
-    $suspend)
-		run_cmd --suspend
-        ;;
-    $logout)
-		run_cmd --logout
-        ;;
+$shutdown)
+  run_cmd --shutdown
+  ;;
+$reboot)
+  run_cmd --reboot
+  ;;
+$lock)
+  if [[ -x '/usr/bin/betterlockscreen' ]]; then
+    betterlockscreen -l
+  elif [[ -x '/usr/bin/i3lock' ]]; then
+    i3lock
+  fi
+  ;;
+$suspend)
+  run_cmd --suspend
+  ;;
+$logout)
+  run_cmd --logout
+  ;;
+$powersave | $balanced | $performance)
+  set_powermode "$chosen"
+  ;;
 esac
-
