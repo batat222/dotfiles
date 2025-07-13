@@ -1,112 +1,60 @@
 #!/bin/bash
-# ~/.config/scripts/show-hotkeys.sh
-
-SHOW_ON_STARTUP=true
-HOTKEY_MD="$HOME/.config/hypr/hotkeys.md"
-EWW_CONFIG="$HOME/.config/eww"
-EWW_YUCK="$EWW_CONFIG/eww.yuck"
-EWW_SCSS="$EWW_CONFIG/eww.scss"
-
-# Exit if disabled
-[ "$SHOW_ON_STARTUP" = false ] && exit 0
-
-# Check if eww is installed
-if ! command -v eww >/dev/null; then
-  notify-send "Error" "eww (Elkowar's Wacky Widgets) is not installed!"
-  exit 1
+# Load wal colors properly (even if script runs before wal)
+if [ ! -f "${HOME}/.cache/wal/colors.sh" ]; then
+  wal --theme base16-default-dark >/dev/null 2>&1
 fi
+source "${HOME}/.cache/wal/colors.sh"
 
-# Create eww config directory if it doesn't exist
-mkdir -p "$EWW_CONFIG"
-
-# Generate eww configuration files
-generate_eww_config() {
-  # Generate YUCK file
-  cat >"$EWW_YUCK" <<EOF
-(defwindow hotkeys
-  :monitor 0
-  :geometry (geometry
-    :width 700
-    :height 700
-    :x "50%"
-    :y "50%"
-    :anchor "center center")
-  :stacking "overlay"
-  :focusable true
-  :reserve (struts :side "top" :distance 40)
-  (box
-    :orientation "vertical"
-    :class "hotkeys-window"
-    (markdown
-      :content (include "$HOTKEY_MD")
-      :class "hotkeys-content")))
-EOF
-
-  # Generate SCSS file
-  cat >"$EWW_SCSS" <<'EOF'
-.hotkeys-window {
-  background-color: transparent;
-  padding: 20px;
+# Generate proper RGBA colors for yad
+hex_to_rgba() {
+  hex=$(echo "$1" | sed 's/^#//')
+  r=$(printf "%d" "0x${hex:0:2}")
+  g=$(printf "%d" "0x${hex:2:2}")
+  b=$(printf "%d" "0x${hex:4:2}")
+  echo "rgba($r,$g,$b,0.85)"
 }
 
-.hotkeys-content {
-  background-color: rgba(30, 30, 46, 0.8);
-  color: #cdd6f4;
-  font-family: "Fira Code", monospace;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #585b70;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  
-  h1, h2, h3 {
-    color: #89b4fa;
-  }
+BG=$(hex_to_rgba "$background")
+FG=$(hex_to_rgba "$foreground")
+ACCENT=$(hex_to_rgba "$color2")
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1em 0;
-  }
-
-  th, td {
-    border: 1px solid #585b70;
-    padding: 8px;
-  }
-
-  th {
-    background-color: #313244;
-  }
-
-  tr:nth-child(even) {
-    background-color: rgba(49, 50, 68, 0.5);
-  }
-
-  code {
-    background-color: #313244;
-    color: #f5c2e7;
-    padding: 2px 4px;
-    border-radius: 3px;
-  }
-}
-EOF
+CSS="
+window {
+    background-color: $BG;
+    border-radius: 12px;
+    border: 1px solid $ACCENT;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-# Generate initial config
-generate_eww_config
+* {
+    color: $FG;
+    font-family: 'Fira Code', monospace;
+    font-size: 11pt;
+}
 
-# Kill any existing eww daemon and windows
-eww kill 2>/dev/null
+h1 { color: $(hex_to_rgba "$color4"); font-size: 1.3em; margin: 15px 0 10px 0; }
+h2 { color: $(hex_to_rgba "$color4"); font-size: 1.1em; margin: 12px 0 8px 0; }
+code { background-color: $(hex_to_rgba "$color0"); color: $(hex_to_rgba "$color3"); padding: 2px 4px; border-radius: 3px; }
+strong { color: $(hex_to_rgba "$color5"); }
+"
 
-# Start eww daemon
-eww daemon
+# Convert markdown to HTML
+md_to_html() {
+  pandoc -f markdown -t html5 "${HOME}/.config/hypr/hotkeys.md" |
+    sed "s/<body>/<body style=\"padding:10px\">/"
+}
 
-# Wait for daemon to start
-sleep 0.5
-
-# Open the window
-eww open hotkeys
-
-# Watch for changes and reload
-while inotifywait -qe modify "$HOTKEY_MD"; do
-  eww reload
-done &
+# Only show if enabled
+yad --html \
+  --title="Hyprland Hotkeys" \
+  --width=700 \
+  --height=900 \
+  --center \
+  --undecorated \
+  --no-buttons \
+  --mouse \
+  --skip-taskbar \
+  --sticky \
+  --css="$CSS" \
+  <<<"$(md_to_html)" &
