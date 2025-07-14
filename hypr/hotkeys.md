@@ -34,6 +34,8 @@
 |     `Super` + `S`                       | Toggle special workspace                    |
 |     `Super` + `Shift` + `S`               | Move window to special workspace            |
 |     `Super` + Mouse Scroll            | Switch workspaces                           |
+|     `Super` + `Control` + `H`             | Previous active workspaces                  |
+|     `Super` + `Control` + `L`             | Next active workspaces                      |
 |     `Super` + Mouse Drag              | Move/resize windows                         |
 
 ---

@@ -2,7 +2,7 @@
     "height": 60, // Waybar height (to be removed for auto height)
     "reload_style_on_change": true,
     "layer": "top", // Waybar at top layer
-    "modules-left": ["custom/launcher", "cpu", "memory", "hyprland/workspaces", "custom/weather", "custom/cava"],
+    "modules-left": ["cpu", "memory", "hyprland/workspaces", "custom/weather", "custom/cava"],
     "modules-right": ["custom/bonsai", "tray", "network", "pulseaudio",  "backlight", "battery", "custom/lock", "clock"],
     "hyprland/workspaces": {
       "format": "{icon}",
@@ -99,10 +99,6 @@
        "tooltip" : false,
        "on-click": "swaylock",
        "format" : "",
-    },
-    "custom/launcher": {
-        "format": "",
-        "on-click": "rofi -show drun &",
     },
     "custom/cava": {
         "format": "{}",
