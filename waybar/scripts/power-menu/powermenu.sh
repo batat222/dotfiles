@@ -1,56 +1,37 @@
 #!/usr/bin/env bash
 
-# Generate rofi colors from wal
-"${HOME}/.config/waybar/scripts/power-menu/wal-to-rofi.sh"
+whoami >/tmp/rofi-user.txt
+id >>/tmp/rofi-user.txt
+env >>/tmp/rofi-user.txt
+# Generate Rofi colors from wal
+[[ -x "${HOME}/.config/waybar/scripts/power-menu/wal-to-rofi.sh" ]] &&
+  "${HOME}/.config/waybar/scripts/power-menu/wal-to-rofi.sh"
 
-# Now import the generated colors
+# Theme and script directory
 dir="$HOME/.config/waybar/scripts/power-menu"
-theme="style" # This will use colors from ~/.cache/wal/colors-rofi.rasi
+theme="${dir}/style.rasi"
 
-[... rest of your script ...]
+# Import pywal colors
+source "${HOME}/.cache/wal/colors.sh" 2>/dev/null
 
-# Get Wal colors (for theming)
-source "${HOME}/.cache/wal/colors.sh"
-
-# CMDs
+# Uptime info
 uptime="$(uptime -p | sed -e 's/up //g')"
 
-# Icons (Nerd Font)
+# Icons (Nerd Fonts)
 shutdown='󰐥'
 reboot='󰜉'
 lock='󰌾'
 suspend='󰤄'
 logout='󰍃'
-powersave='󰾆'
-balanced='󰾅'
-performance='󰓅'
 yes='✓'
 no='x'
 
-# Rofi command
+# Main rofi menu
 rofi_cmd() {
   rofi -dmenu \
     -p "Uptime: $uptime" \
     -mesg "Uptime: $uptime" \
-    -theme ~/.config/waybar/scripts/power-menu/style.rasi
-}
-
-# Power mode selection
-set_powermode() {
-  case "$1" in
-  "󰾆 PowerSave")
-    sudo cpupower frequency-set -g powersave
-    notify-send "Power Mode: Powersave"
-    ;;
-  "󰾅 Balanced")
-    sudo cpupower frequency-set -g balanced
-    notify-send "Power Mode: Balanced"
-    ;;
-  "󰓅 Performance")
-    sudo cpupower frequency-set -g performance
-    notify-send "Power Mode: Performance"
-    ;;
-  esac
+    -theme "$theme"
 }
 
 # Confirmation dialog
@@ -62,67 +43,60 @@ confirm_cmd() {
     -theme-str 'textbox {horizontal-align: 0.5;}' \
     -dmenu \
     -p 'Confirmation' \
-    -theme ${dir}/${theme}.rasi
+    -theme "$theme"
 }
 
 confirm_exit() {
   echo -e "$yes\n$no" | confirm_cmd
 }
 
-# Main menu
+# Run main menu
 run_rofi() {
-  echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown\n$powersave\n$balanced\n$performance" | rofi_cmd
+  echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
 }
 
-# Execute command
+# Handle command execution with confirmation
 run_cmd() {
   selected="$(confirm_exit)"
-  if [[ "$selected" == "$yes" ]]; then
-    if [[ $1 == '--shutdown' ]]; then
-      systemctl poweroff
-    elif [[ $1 == '--reboot' ]]; then
-      systemctl reboot
-    elif [[ $1 == '--suspend' ]]; then
-      mpc -q pause
-      amixer set Master mute
-      systemctl suspend
-    elif [[ $1 == '--logout' ]]; then
-      if [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
-        hyprctl dispatch exit
-      elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-        i3-msg exit
-      elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-        bspc quit
-      fi
-    fi
-  else
-    exit 0
-  fi
+  [[ -z "$selected" || "$selected" == "$no" ]] && exit 0
+
+  case "$1" in
+  --shutdown)
+    systemctl poweroff
+    ;;
+  --reboot)
+    systemctl reboot
+    ;;
+  --suspend)
+    mpc -q pause
+    amixer set Master mute
+    systemctl suspend
+    ;;
+  --logout)
+    case "$DESKTOP_SESSION" in
+    hyprland) hyprctl dispatch exit ;;
+    i3) i3-msg exit ;;
+    bspwm) bspc quit ;;
+    *) dunstify "Unsupported session: $DESKTOP_SESSION" ;;
+    esac
+    ;;
+  esac
 }
 
-# Handle selection
+# Main logic
 chosen="$(run_rofi)"
-case ${chosen} in
-$shutdown)
-  run_cmd --shutdown
-  ;;
-$reboot)
-  run_cmd --reboot
-  ;;
+[[ -z "$chosen" ]] && exit 0
+
+case "$chosen" in
+$shutdown) run_cmd --shutdown ;;
+$reboot) run_cmd --reboot ;;
 $lock)
-  if [[ -x '/usr/bin/betterlockscreen' ]]; then
-    betterlockscreen -l
-  elif [[ -x '/usr/bin/i3lock' ]]; then
-    i3lock
+  if command -v hyprlock &>/dev/null; then
+    hyprlock
+  else
+    dunstify "hyprlock not found"
   fi
   ;;
-$suspend)
-  run_cmd --suspend
-  ;;
-$logout)
-  run_cmd --logout
-  ;;
-$powersave | $balanced | $performance)
-  set_powermode "$chosen"
-  ;;
+$suspend) run_cmd --suspend ;;
+$logout) run_cmd --logout ;;
 esac

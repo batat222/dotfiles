@@ -3,11 +3,11 @@
 WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
 LAST_WALLPAPER_FILE="/tmp/swww_last_wallpaper"
 
-# Ensure swww daemon is running
 if ! pgrep -x "swww-daemon" >/dev/null; then
   echo "Starting swww-daemon..."
   swww-daemon &
   sleep 1
+  exit 1
 fi
 
 echo "Wallpaper directory: $WALLPAPER_DIR"

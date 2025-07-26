@@ -7,13 +7,14 @@ This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [
 
 ![Alt text](/Images/screenshot1.png/?raw=true "Some screenshots")
 ![Alt text](/Images/screenshot2.png/?raw=true "Some screenshots")
+![Alt text](/Images/screenshot3.png/?raw=true "Some screenshots")
 
 
 
 ### Dependencies
 - dunst
 - fish
-- google chrome (yes, i'm using it)
+- zen browser
 - hypridle
 - hyprland
 - hyprlock
