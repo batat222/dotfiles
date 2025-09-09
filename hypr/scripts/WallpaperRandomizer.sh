@@ -49,5 +49,4 @@ echo "Setting wallpaper: $WALLPAPER"
 echo "$WALLPAPER" >"$LAST_WALLPAPER_FILE"
 
 swww img "$WALLPAPER" --transition-type any --transition-fps 60 --transition-duration 0.5
-pywal-discord -t default
 wal -i "$WALLPAPER" -n -e --saturate 0.5
