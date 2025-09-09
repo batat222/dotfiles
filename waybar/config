@@ -1,0 +1,74 @@
+{
+    "height": 60,
+    "reload_style_on_change": true,
+    "layer": "top",
+    "modules-left": ["cpu", "memory", "hyprland/workspaces", "custom/cava"],
+    "modules-right": ["tray", "network", "pulseaudio","clock"],
+    "hyprland/workspaces": {
+      "format": "{icon}",
+      "on-click": "activate",
+      "format-icons": {
+        "active": " 󰮯",
+        "default": "•",
+      }
+    },
+    "hyprland/window": {
+        "format": "{}"
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%b %d %Y}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    },
+
+      "cpu": {
+        "format-critical":  "<span color='#c20821'><b>\uF201 {usage}%</b></span>",
+        "format-high":      "<span color='#e03c52'>\uF201 {usage}%</span>",
+        "format-medium":    "<span color='#85c600'>\uF201 {usage}%</span>",
+        "format-low":       "<span color='grey'>\uF201 {usage}%</span>",
+        "tooltip": false,
+        "interval": 2,
+        "states": {
+            "critical": 80,
+            "high": 50,
+            "medium": 5,
+            "low": 0,
+        },
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "format-alt":"󰍛 {used:0.1f}GB",
+        "max-length": 10,
+    },
+    "network": {
+        /* "format-wifi": "󰖩", */
+        "format-wifi": "{icon}",
+        "format-ethernet": " ",
+        "format-disconnected": "󰈀",
+        "tooltip-format": "{essid}",
+        "on-click": "~/.config/waybar/scripts/network/rofi-network-manager.sh",
+        "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol &"
+    },
+    "custom/weather": {
+      "exec": "python3 ~/.config/waybar/scripts/weather.py",
+      "restart-interval": 300,
+      "return-type": "json",
+    },   
+    "custom/cava": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/cava.sh"
+    },
+ }
