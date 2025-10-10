@@ -3,14 +3,6 @@ This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [
 - Wallpaper folder is ~/Pictures/Wallpapers
 - tested only on arch
 
-### Screenshots
-
-![Alt text](/Images/screenshot1.png/?raw=true "Some screenshots")
-![Alt text](/Images/screenshot2.png/?raw=true "Some screenshots")
-![Alt text](/Images/screenshot3.png/?raw=true "Some screenshots")
-
-
-
 ### Dependencies
 - dunst
 - fish
