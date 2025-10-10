@@ -34,10 +34,10 @@ neovim nerd-fonts pamixer pandoc perl python-pywal16 rofi starship swww yad --ne
 
 To copy these dotfiles do:
 ```bash
-cp ~/.config ~/.config-backup \
-&& git clone https://github.com/batat222/dotfiles.git\
-&& cp dotfiles/ .config/
-&& rm -rf ~/.config/.git
+cp ~/.config ~/.config-backup && \
+git clone https://github.com/batat222/dotfiles.git && \
+cp dotfiles/ .config && \
+rm -rf ~/.config/.git
 ```
 
 ---
