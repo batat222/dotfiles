@@ -1,11 +1,11 @@
 #!/bin/bash
 
 WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
-LAST_WALLPAPER_FILE="/tmp/swww_last_wallpaper"
+LAST_WALLPAPER_FILE="/tmp/awww_last_wallpaper"
 
-if ! pgrep -x "swww-daemon" >/dev/null; then
-  echo "Starting swww-daemon..."
-  swww-daemon &
+if ! pgrep -x "awww-daemon" >/dev/null; then
+  echo "Starting awww-daemon..."
+  awww-daemon &
   sleep 1
   exit 1
 fi
@@ -14,7 +14,7 @@ echo "Wallpaper directory: $WALLPAPER_DIR"
 echo "Files in directory:"
 ls -l "$WALLPAPER_DIR"
 
-CURRENT_WALL=$(swww query | grep 'image:' | awk -F'image: ' '{print $2}')
+CURRENT_WALL=$(awww query | grep 'image:' | awk -F'image: ' '{print $2}')
 echo "Current wallpaper: $CURRENT_WALL"
 
 LAST_WALLPAPER=""
@@ -48,5 +48,5 @@ fi
 echo "Setting wallpaper: $WALLPAPER"
 echo "$WALLPAPER" >"$LAST_WALLPAPER_FILE"
 
-swww img "$WALLPAPER" --transition-type any --transition-fps 60 --transition-duration 0.5
+awww img "$WALLPAPER" --transition-type any --transition-fps 60 --transition-duration 0.5
 wal -i "$WALLPAPER" -n -e --saturate 0.5

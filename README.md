@@ -1,12 +1,13 @@
-This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [dotfiles](https://github.com/1amSimp1e/dots/tree/balcony%F0%9F%9A%8A) (it is only waybar rn)
+This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [dotfiles](https://github.com/1amSimp1e/dots/tree/balcony%F0%9F%9A%8A) (it is only waybar and its customs rn)
 
 - Wallpaper folder is ~/Pictures/Wallpapers
 - tested only on arch
 
-### Dependencies
+---
+## Dependencies
 - dunst
 - fish
-- zen browser
+- firefox
 - hypridle
 - hyprland
 - hyprlock
@@ -22,31 +23,33 @@ This repo contains some files from [1amSimp1e](https://github.com/1amSimp1e)'s [
 - pywal16
 - rofi
 - starship
-- swww
+- awww
 - yad
 
-To install all dependencies:
+---
+## To install all dependencies:
+### Arch:
 ```bash
 paru -S \
 dunst fish zen-browser-bin hypridle hyprlock inotify-tools jq kitty light \
 neovim nerd-fonts pamixer pandoc perl python-pywal16 rofi starship swww yad --needed
 ```
 
-To copy these dotfiles do:
+---
+## To copy these dotfiles do:
 ```bash
 cp -r ~/.config ~/.config-backup && \
 git clone https://github.com/batat222/dotfiles.git && \
-cp -r dotfiles/* .config && \
+cp dotfiles/ .config && \
 rm -rf ~/.config/.git
 ```
 
-TODO:
-- Fix cheatsheet
-- Write install script
-- Create laptop/desktop versions
-- Implement theme changer
-- Create colour fallback without errors
+---
+## Plans
+1. New network module
+2. Installation script
+3. Laptop and desktop versions
+4. Warhammer 40k inspired dotfiles
 
 ---
-Thanks [1amSimp1e](https://github.com/1amSimp1e) for dotfiles (used them as a base, but changed almost everything)
-
+Thanks [1amSimp1e](https://github.com/1amSimp1e) for dotfiles (used them as a base)
