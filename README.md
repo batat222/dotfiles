@@ -36,9 +36,16 @@ To copy these dotfiles do:
 ```bash
 cp -r ~/.config ~/.config-backup && \
 git clone https://github.com/batat222/dotfiles.git && \
-cp dotfiles/ .config && \
+cp -r dotfiles/* .config && \
 rm -rf ~/.config/.git
 ```
+
+TODO:
+- Fix cheatsheet
+- Write install script
+- Create laptop/desktop versions
+- Implement theme changer
+- Create colour fallback without errors
 
 ---
 Thanks [1amSimp1e](https://github.com/1amSimp1e) for dotfiles (used them as a base, but changed almost everything)
